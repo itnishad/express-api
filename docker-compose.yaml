@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  
+  expressjs-api:
+    container_name: expressjs-api
+    restart: 'no'
+    build: .
+    volumes:
+      - "./app:/app"
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./.env
+      
+  expressjs-mongo:
+    container_name: expressjs-mongo
+    image: 'mongo:4'
+    restart: 'no'
+    expose:
+      - "27017"
+    ports:
+      - "27017:27017"
+    volumes:
+      - "./mongo:/data/db"

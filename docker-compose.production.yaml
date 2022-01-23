@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  
+  videoadspy-api:
+    container_name: videoadspy-api
+    restart: 'always'
+    build:
+      context: './'
+      dockerfile: 'production.Dockerfile'
+    expose:
+      - "${PORT}"
+    networks:
+      - web
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.videoadspy-api.priority=100"
+      - "traefik.http.routers.videoadspy-api.rule=Host(`${VIRTUAL_HOST}`)"
+      - "traefik.http.routers.videoadspy-api.entrypoints=websecure"
+      - "traefik.http.routers.videoadspy-api.tls.certresolver=myresolver"
+    env_file:
+      - .env
+  
+  videoadspy-redis:
+    container_name: videoadspy-redis
+    image: redis:alpine
+    networks:
+      - web
+    restart: 'no'
+    expose:
+      - 6379
+    env_file:
+      - .env
+  
+networks:
+  web:
+    external:
+      name: ${TRAEFIK_NETWORK}
