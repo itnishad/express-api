@@ -4,6 +4,7 @@
 
 // ExpressJS Core
 const express = require('express');
+const {carValidators, carValidationHandler } = require("../car/middelwares/carValidation")
 const router = express.Router();
 
 // Controllers
@@ -12,7 +13,7 @@ const CarCtrl = require('./controllers/car.controller');
 // Routes
 router.get(  '/', CarCtrl.Index );
 
-router.post(  '/', CarCtrl.Create );
+router.post(  '/', carValidators, carValidationHandler, CarCtrl.Create );
 
 router.get(  '/:id', CarCtrl.Single );
 
