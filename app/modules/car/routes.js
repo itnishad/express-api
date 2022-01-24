@@ -4,14 +4,18 @@
 
 // ExpressJS Core
 const express = require('express');
-const {carValidators, carValidationHandler } = require("../car/middelwares/carValidation")
 const router = express.Router();
+const passport = require('passport');
+
+// Middleware
+const {carValidators, carValidationHandler } = require("../car/middelwares/carValidation")
+
 
 // Controllers
 const CarCtrl = require('./controllers/car.controller');
 
 // Routes
-router.get(  '/', CarCtrl.Index );
+router.get(  '/', passport.authenticate('jwt',{session: false}),CarCtrl.Index );
 
 router.post(  '/', carValidators, carValidationHandler, CarCtrl.Create );
 

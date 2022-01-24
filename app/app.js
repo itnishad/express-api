@@ -5,6 +5,8 @@ const logger = require('morgan');
 const cors = require('cors');
 const helmet = require("helmet");
 
+require('./modules/auth/config/passport');
+
 // Auth: Passport
 // const passport = require('passport');
 // require('./modules/auth/configs/passport');
@@ -27,6 +29,7 @@ app.use(cookieParser());
 // require('./modules/auth/configs/passport');
 
 app.use('/v1/cars', require('./modules/car/routes'));
+app.use('/', require('./modules/auth/routes'));
 
 // Register Protected Routes
 // app.all('*', passport.authenticate('jwt', {session: false}), (req, res, next) => next());
